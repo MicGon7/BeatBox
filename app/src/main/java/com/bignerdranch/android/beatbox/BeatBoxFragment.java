@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.bignerdranch.android.beatbox.databinding.FragmentBeatBoxBinding;
 import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding;
@@ -22,6 +24,8 @@ import java.util.List;
 public class BeatBoxFragment extends Fragment {
 
     private BeatBox mBeatBox;
+    private SeekBar mSeekBar;
+    private TextView mSeekBarProgressText;
 
 
     public static BeatBoxFragment newInstance() {
@@ -46,7 +50,44 @@ public class BeatBoxFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
 
+        mSeekBar = binding.seekbar;
+        mSeekBarProgressText = binding.seekbarValueText;
+
+        updatePlayRate(mSeekBar.getProgress());
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                updatePlayRate(progress);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
         return binding.getRoot();
+    }
+
+    private void updatePlayRate(int progress) {
+        float playRate = (float) (progress * 2) / 100;
+        if (mSeekBar != null) {
+            mSeekBarProgressText.setText(getString(R.string.playrate_text) +
+                    String.valueOf(playRate));
+
+            mBeatBox.setPlayRate(playRate);
+
+
+        }
     }
 
     @Override

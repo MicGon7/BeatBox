@@ -8,6 +8,7 @@ public class Sound {
     private String mAssetPath;
     private String mName;
     private Integer mSoundId;
+    private float mPlayRate;
 
 
     public void setAssetPath(String assetPath) {
@@ -40,4 +41,14 @@ public class Sound {
     public void setSoundId(Integer soundId) {
         mSoundId = soundId;
     }
+
+    public float getPlayRate() {
+        return mPlayRate;
+    }
+
+    public void setPlayRate(float playRate) {
+        mPlayRate = playRate;
+    }
 }
+
+
