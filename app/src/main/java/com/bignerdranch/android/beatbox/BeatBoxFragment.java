@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.bignerdranch.android.beatbox.databinding.FragmentBeatBoxBinding;
 import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding;
@@ -25,7 +24,6 @@ public class BeatBoxFragment extends Fragment {
 
     private BeatBox mBeatBox;
     private SeekBar mSeekBar;
-    private TextView mSeekBarProgressText;
 
 
     public static BeatBoxFragment newInstance() {
@@ -44,50 +42,20 @@ public class BeatBoxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflating a binding class
+        // <Layout> tag in fragment_beat_box.xml
+        // tells data binding tool to auto generate FragmentBeatBoxBinding class
         FragmentBeatBoxBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_beat_box, container, false);
         // Configuring RecyclerView - find view by ID no longer required - binding handles it.
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
 
+        // Set view model in fragment_beat_box (FragmentBeatBoxBinding) layout.
+        binding.setViewModel(mBeatBox);
+
+        // Bind mSeekBar.
         mSeekBar = binding.seekbar;
-        mSeekBarProgressText = binding.seekbarValueText;
-
-        updatePlayRate(mSeekBar.getProgress());
-
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                updatePlayRate(progress);
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-
         return binding.getRoot();
-    }
-
-    private void updatePlayRate(int progress) {
-        float playRate = (float) (progress * 2) / 100;
-        if (mSeekBar != null) {
-            mSeekBarProgressText.setText(getString(R.string.playrate_text) +
-                    String.valueOf(playRate));
-
-            mBeatBox.setPlayRate(playRate);
-
-
-        }
     }
 
     @Override

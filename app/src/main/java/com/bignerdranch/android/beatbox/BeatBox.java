@@ -3,9 +3,12 @@ package com.bignerdranch.android.beatbox;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ import java.util.List;
  * Created by michaelgonzalez on 4/3/18.
  */
 
-public class BeatBox {
+public class BeatBox extends BaseObservable {
     private static final String TAG = "BeatBox";
 
     private static final String SOUNDS_FOLDER = "sample_sounds";
@@ -24,7 +27,7 @@ public class BeatBox {
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
-    private float mPlayRate;
+    private float mPlayRate = 1.0f;
 
     public BeatBox(Context context) {
         mAssets = context.getAssets();
@@ -34,19 +37,23 @@ public class BeatBox {
 
     public void play(Sound sound) {
         Integer soundId = sound.getSoundId();
-        if(soundId == null) {
+        if (soundId == null) {
             return;
         }
 
         mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, mPlayRate);
     }
 
-    public float getPlayRate() {
-        return mPlayRate;
-    }
 
-    public void setPlayRate(float playRate) {
-        mPlayRate = playRate;
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser) {
+            // 0-based counting for progress - pitch value is from 0.0 to 2.0
+            mPlayRate = (float) (2 * progress) / 100;
+
+            // Let @Bindable's know of change.
+            notifyChange();
+        }
+
     }
 
     public void release() {
@@ -89,4 +96,12 @@ public class BeatBox {
     public List<Sound> getSounds() {
         return mSounds;
     }
+
+    @Bindable
+    public String getPlayRateText() {
+
+        int playRate = (int) (mPlayRate * 50);
+        return "Playback Speed: " + playRate + "%";
+    }
+
 }
