@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 
 import com.bignerdranch.android.beatbox.databinding.FragmentBeatBoxBinding;
 import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding;
@@ -23,7 +22,6 @@ import java.util.List;
 public class BeatBoxFragment extends Fragment {
 
     private BeatBox mBeatBox;
-    private SeekBar mSeekBar;
 
 
     public static BeatBoxFragment newInstance() {
@@ -53,8 +51,6 @@ public class BeatBoxFragment extends Fragment {
         // Set view model in fragment_beat_box (FragmentBeatBoxBinding) layout.
         binding.setViewModel(new SoundViewModel(mBeatBox));
 
-        // Bind mSeekBar.
-        mSeekBar = binding.seekbar;
         return binding.getRoot();
     }
 
