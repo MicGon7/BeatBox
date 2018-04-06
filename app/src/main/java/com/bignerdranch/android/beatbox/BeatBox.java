@@ -8,7 +8,6 @@ import android.databinding.Bindable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
-import android.widget.SeekBar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,17 +43,6 @@ public class BeatBox extends BaseObservable {
         mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, mPlayRate);
     }
 
-
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (fromUser) {
-            // 0-based counting for progress - pitch value is from 0.0 to 2.0
-            mPlayRate = (float) (2 * progress) / 100;
-
-            // Let @Bindable's know of change.
-            notifyChange();
-        }
-
-    }
 
     public void release() {
         mSoundPool.release();
@@ -98,10 +86,13 @@ public class BeatBox extends BaseObservable {
     }
 
     @Bindable
-    public String getPlayRateText() {
+    public float getPlayRate() {
 
-        int playRate = (int) (mPlayRate * 50);
-        return "Playback Speed: " + playRate + "%";
+        return mPlayRate;
+    }
+
+    public void setPlayRate(float playRate) {
+        mPlayRate = playRate;
     }
 
 }

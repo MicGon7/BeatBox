@@ -31,11 +31,17 @@ public class SoundViewModelTest {
         assertThat(mSubject.getTitle(), is(mSound.getName()));
     }
 
+
     @Test
     public void callsBeatBoxPlayOnButtonClicked() {
         mSubject.onButtonClicked();
 
         verify(mBeatBox).play(mSound);
+    }
+
+    @Test
+    public void callsOnProgressChange() {
+
     }
 
 }

@@ -51,7 +51,7 @@ public class BeatBoxFragment extends Fragment {
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
 
         // Set view model in fragment_beat_box (FragmentBeatBoxBinding) layout.
-        binding.setViewModel(mBeatBox);
+        binding.setViewModel(new SoundViewModel(mBeatBox));
 
         // Bind mSeekBar.
         mSeekBar = binding.seekbar;

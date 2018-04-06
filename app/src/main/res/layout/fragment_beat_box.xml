@@ -5,7 +5,7 @@
         <!--Remember to rebuild to see viewModel methods-->
         <variable
             name="viewModel"
-            type="com.bignerdranch.android.beatbox.BeatBox" />
+            type="com.bignerdranch.android.beatbox.SoundViewModel" />
     </data>
 
 
@@ -14,34 +14,36 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/playback_container"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:background="@android:color/darker_gray">
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/seekbar_value_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.playRateText}"
-                />
+                android:layout_height="match_parent"
+                android:text="@{viewModel.playRateText}" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="50"
-                android:onProgressChanged="@{viewModel.onProgressChanged}"
-                />
+                android:layout_height="match_parent"
+                android:onProgressChanged="@{() -> viewModel.onSeekBarMove(seekbar)}"
+                android:progress="50" />
 
         </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/playback_container"
+            android:layout_alignParentTop="true" />
 
 
     </RelativeLayout>
