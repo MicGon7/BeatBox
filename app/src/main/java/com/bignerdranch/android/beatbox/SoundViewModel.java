@@ -37,14 +37,13 @@ public class SoundViewModel extends BaseObservable {
         mBeatBox.play(mSound);
     }
 
-    public void onSeekBarMove(SeekBar seekBar) {
-        // 0-based counting for progress - pitch value is from 0.0 to 2.0
-        int progress = seekBar.getProgress();
+
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         float playRate = (progress * 2); // does not allow me to divide by 100 in this statement??
         mBeatBox.setPlayRate(playRate / 100);
 
         // Let @Bindable's know of change.
-        notifyChange();
+        notifyPropertyChanged(BR.playRate);
     }
 
     @Bindable

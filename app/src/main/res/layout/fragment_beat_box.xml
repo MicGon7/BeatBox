@@ -32,7 +32,7 @@
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onProgressChanged="@{() -> viewModel.onSeekBarMove(seekbar)}"
+                android:onProgressChanged="@{viewModel::onProgressChanged}"
                 android:progress="50" />
 
         </LinearLayout>
